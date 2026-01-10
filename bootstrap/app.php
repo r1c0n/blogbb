@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.banned' => \App\Http\Middleware\CheckBanned::class,
             'check.maintenance' => \App\Http\Middleware\CheckMaintenance::class,
         ]);
-        
+
         // Redirect admin guard to admin login route
         $middleware->redirectGuestsTo(function ($request) {
             if ($request->is('admin') || $request->is('admin/*')) {

@@ -16,6 +16,9 @@ Route::middleware([CheckMaintenance::class])->group(function () {
     // Home page
     Route::get('/', [BlogController::class, 'home'])->name('home');
 
+    // Credits page
+    Route::get('/credits', [BlogController::class, 'credits'])->name('credits');
+
     // Blog routes
     Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
     Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blogs.show');

@@ -130,6 +130,11 @@
         <div class="container text-center">
             <p class="mb-0">&copy; {{ date('Y') }} {{ $siteConfig['name'] ?? 'BlogBB' }}. Built with Laravel.</p>
             <p class="mb-0 text-muted small">{{ $siteConfig['description'] ?? '' }}</p>
+            <p class="mb-0 mt-2">
+                <a href="{{ route('credits') }}" class="text-white-50 text-decoration-none">
+                    <i class="fas fa-award"></i> Credits
+                </a>
+            </p>
         </div>
     </footer>
 

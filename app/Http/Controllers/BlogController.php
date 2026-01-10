@@ -154,4 +154,16 @@ class BlogController extends Controller
             'recentBlogs' => $recentBlogs,
         ]);
     }
+
+    /**
+     * Display the credits page
+     */
+    public function credits(): View
+    {
+        $siteConfig = $this->settingService->getSiteConfig();
+
+        return view('credits', [
+            'siteConfig' => $siteConfig,
+        ]);
+    }
 }
