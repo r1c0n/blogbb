@@ -66,6 +66,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:admin', RequirePasswor
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
     Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+    Route::get('/users/{adminUser}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
+    Route::patch('/users/{adminUser}/password', [AdminUserController::class, 'updatePassword'])->name('users.password');
     Route::delete('/users/{adminUser}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 });
 

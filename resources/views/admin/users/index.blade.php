@@ -48,15 +48,19 @@
                             <td>{{ $user->created_at->format('M d, Y') }}</td>
                             <td>
                                 @if(!$user->isOwner() && $user->id !== Auth::guard('admin')->id())
-                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
-                                      onsubmit="return confirm('Are you sure you want to delete this admin user?');"
-                                      class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </form>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-key"></i> Password
+                                    </a>
+                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
+                                          onsubmit="return confirm('Are you sure you want to delete this admin user?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
                                 @else
                                 <span class="text-muted">-</span>
                                 @endif

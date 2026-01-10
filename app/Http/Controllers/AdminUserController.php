@@ -60,6 +60,34 @@ class AdminUserController extends Controller
             ->with('success', 'Admin user created successfully!');
     }
 
+    public function edit(AdminUser $adminUser): View
+    {
+        $this->authorize('manageAdmins', Auth::guard('admin')->user());
+
+        $siteConfig = $this->settingService->getSiteConfig();
+
+        return view('admin.users.edit', [
+            'adminUser' => $adminUser,
+            'siteConfig' => $siteConfig,
+        ]);
+    }
+
+    public function updatePassword(Request $request, AdminUser $adminUser): RedirectResponse
+    {
+        $this->authorize('manageAdmins', Auth::guard('admin')->user());
+
+        $validated = $request->validate([
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $adminUser->password = Hash::make($validated['password']);
+        $adminUser->must_change_password = $request->boolean('force_change');
+        $adminUser->save();
+
+        return redirect()->route('admin.users.index')
+            ->with('success', 'Password updated successfully!');
+    }
+
     public function destroy(AdminUser $adminUser): RedirectResponse
     {
         $this->authorize('manageAdmins', Auth::guard('admin')->user());
