@@ -80,6 +80,12 @@ class AdminUserController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
+        if (Hash::check($validated['password'], $adminUser->password)) {
+            return back()->withErrors([
+                'password' => 'New password must be different from current password.',
+            ]);
+        }
+
         $adminUser->password = Hash::make($validated['password']);
         $adminUser->must_change_password = $request->boolean('force_change');
         $adminUser->save();

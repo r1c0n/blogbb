@@ -40,6 +40,12 @@ class PasswordChangeController extends Controller
             ]);
         }
 
+        if (Hash::check($validated['new_password'], $user->password)) {
+            return back()->withErrors([
+                'new_password' => 'New password must be different from current password.',
+            ]);
+        }
+
         $user->password = Hash::make($validated['new_password']);
         $user->must_change_password = false;
         $user->save();
