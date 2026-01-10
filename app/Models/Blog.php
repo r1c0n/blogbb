@@ -15,10 +15,12 @@ class Blog extends Model
         'body',
         'ip',
         'views',
+        'show_email',
     ];
 
     protected $casts = [
         'views' => 'integer',
+        'show_email' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

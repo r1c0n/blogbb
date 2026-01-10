@@ -59,11 +59,33 @@
                             <i class="fas fa-plus"></i> New Post
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.index') }}">
-                            <i class="fas fa-cog"></i> Admin
+                    @auth('admin')
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-shield"></i> {{ Auth::guard('admin')->user()->username }}
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ route('admin.index') }}">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a></li>
+                            @if(Auth::guard('admin')->user()->canManageAdmins())
+                            <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">
+                                <i class="fas fa-users-cog"></i> Admin Users
+                            </a></li>
+                            @endif
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="{{ route('admin.logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
+                    @endauth
                 </ul>
             </div>
         </div>

@@ -25,20 +25,6 @@
                     <form action="{{ route('blogs.store') }}" method="POST">
                         @csrf
 
-                        <!-- Email -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                   id="email" name="email" placeholder="Enter email"
-                                   value="{{ old('email') }}" required>
-                            <div class="form-text">
-                                Your email will be public to those who view your blog. | MIN: 7 - MAX: 60
-                            </div>
-                            @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
                         <!-- Title -->
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
@@ -61,6 +47,16 @@
                             @error('body')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                        </div>
+
+                        <!-- Show Email -->
+                        <div class="mb-3">
+                            <label for="show_email" class="form-label">Email Visibility</label>
+                            <select class="form-select" id="show_email" name="show_email">
+                                <option value="1" {{ old('show_email', '1') == '1' ? 'selected' : '' }}>Show email on post</option>
+                                <option value="0" {{ old('show_email') == '0' ? 'selected' : '' }}>Hide email on post</option>
+                            </select>
+                            <div class="form-text">Choose whether to display your admin email publicly on this post</div>
                         </div>
 
                         <div class="d-flex gap-2">

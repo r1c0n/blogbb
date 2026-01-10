@@ -25,10 +25,12 @@
                             <i class="far fa-eye"></i>
                             {{ $blog->views }} view(s)
                         </p>
+                        @if($blog->show_email)
                         <p class="mb-0">
                             <i class="far fa-envelope"></i>
                             <strong>By: {{ $blog->email }}</strong>
                         </p>
+                        @endif
                     </div>
 
                     <hr>

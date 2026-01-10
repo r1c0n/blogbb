@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\BlogService;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -63,8 +64,13 @@ class BlogController extends Controller
     /**
      * Show the form for creating a new blog post
      */
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login')
+                ->with('error', 'You must be logged in as an admin to create posts.');
+        }
+
         $siteConfig = $this->settingService->getSiteConfig();
 
         return view('blogs.create', [
@@ -77,11 +83,19 @@ class BlogController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login')
+                ->with('error', 'You must be logged in as an admin to create posts.');
+        }
+
         $validated = $request->validate([
-            'email' => 'required|email|min:7|max:60',
             'title' => 'required|string|min:3|max:100',
             'body' => 'required|string|min:10|max:60000',
+            'show_email' => 'required|boolean',
         ]);
+
+        // Add admin's email to the validated data
+        $validated['email'] = Auth::guard('admin')->user()->email ?? 'admin@blogbb.local';
 
         try {
             $blog = $this->blogService->createBlog($validated);

@@ -49,6 +49,11 @@
                         <a href="{{ route('admin.bans') }}" class="btn btn-danger">
                             <i class="fas fa-ban"></i> Manage Bans
                         </a>
+                        @if(Auth::guard('admin')->user()->canManageAdmins())
+                        <a href="{{ route('admin.users.index') }}" class="btn btn-warning">
+                            <i class="fas fa-users-cog"></i> Admin Users
+                        </a>
+                        @endif
                         <form action="{{ route('admin.maintenance.toggle') }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="btn btn-{{ $siteConfig['maintenance'] ? 'success' : 'warning' }}">
