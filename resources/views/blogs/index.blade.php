@@ -7,6 +7,7 @@
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3 mb-4">
+            @auth('admin')
             <div class="card">
                 <div class="card-body">
                     <a href="{{ route('blogs.create') }}" class="btn btn-primary w-100">
@@ -14,6 +15,7 @@
                     </a>
                 </div>
             </div>
+            @endauth
         </div>
 
         <!-- Main Content -->

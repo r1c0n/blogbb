@@ -13,9 +13,11 @@
             <a class="btn btn-primary btn-lg" href="{{ route('blogs.index') }}" role="button">
                 <i class="fas fa-book-open"></i> Browse Posts
             </a>
+            @auth('admin')
             <a class="btn btn-success btn-lg" href="{{ route('blogs.create') }}" role="button">
                 <i class="fas fa-pen"></i> Write a Post
             </a>
+            @endauth
         </div>
     </div>
 

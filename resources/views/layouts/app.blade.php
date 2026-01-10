@@ -54,11 +54,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('blogs.index') }}">Blog Posts</a>
                     </li>
+                    @auth('admin')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('blogs.create') }}">
                             <i class="fas fa-plus"></i> New Post
                         </a>
                     </li>
+                    @endauth
                     @auth('admin')
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
