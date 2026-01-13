@@ -32,18 +32,54 @@
         .navbar-brand {
             font-weight: bold;
         }
+        .breadcrumb-item a {
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                padding: 1rem 0;
+            }
+            .navbar-nav .nav-item {
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .navbar-nav .nav-item:last-child {
+                border-bottom: none;
+            }
+            .navbar-nav .nav-link {
+                padding: 0.5rem 1rem;
+                font-size: 1.1rem;
+            }
+            .navbar-nav .dropdown-menu {
+                background-color: #343a40;
+                border: none;
+                padding-left: 1rem;
+            }
+            .navbar-nav .dropdown-item {
+                color: rgba(255,255,255,0.8);
+                padding: 0.5rem 1rem;
+            }
+            .navbar-nav .dropdown-item:hover {
+                background-color: rgba(255,255,255,0.1);
+                color: #fff;
+            }
+        }
     </style>
 
     @stack('styles')
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
                 <i class="fas fa-blog"></i> {{ $siteConfig['name'] ?? 'BlogBB' }}
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -119,6 +155,24 @@
             {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
+    </div>
+    @endif
+
+    <!-- Breadcrumbs -->
+    @if(isset($breadcrumbs) && count($breadcrumbs) > 0)
+    <div class="container">
+        <nav aria-label="breadcrumb" class="pt-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fas fa-home"></i> Home</a></li>
+                @foreach($breadcrumbs as $breadcrumb)
+                    @if($loop->last)
+                        <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['name'] }}</li>
+                    @else
+                        <li class="breadcrumb-item"><a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a></li>
+                    @endif
+                @endforeach
+            </ol>
+        </nav>
     </div>
     @endif
 

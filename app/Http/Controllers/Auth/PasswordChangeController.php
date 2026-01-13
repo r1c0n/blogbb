@@ -19,9 +19,14 @@ class PasswordChangeController extends Controller
     public function show(): View
     {
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Change Password', 'url' => null]
+        ];
 
         return view('auth.change-password', [
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

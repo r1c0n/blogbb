@@ -12,7 +12,11 @@ class AdminAuthController extends Controller
 {
     public function showLogin(): View
     {
-        return view('auth.login');
+        $breadcrumbs = [
+            ['name' => 'Admin Login', 'url' => null]
+        ];
+        
+        return view('auth.login', compact('breadcrumbs'));
     }
 
     public function login(Request $request): RedirectResponse

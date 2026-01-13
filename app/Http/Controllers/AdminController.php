@@ -26,12 +26,17 @@ class AdminController extends Controller
         $totalBlogs = $this->blogService->getTotalCount();
         $totalBans = Ban::count();
         $recentBlogs = $this->blogService->getRecentBlogs(10);
+        
+        $breadcrumbs = [
+            ['name' => 'Admin Dashboard', 'url' => null]
+        ];
 
         return view('admin.index', [
             'siteConfig' => $siteConfig,
             'totalBlogs' => $totalBlogs,
             'totalBans' => $totalBans,
             'recentBlogs' => $recentBlogs,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -41,9 +46,15 @@ class AdminController extends Controller
     public function settings(): View
     {
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Admin Dashboard', 'url' => route('admin.index')],
+            ['name' => 'Settings', 'url' => null]
+        ];
 
         return view('admin.settings', [
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -96,10 +107,16 @@ class AdminController extends Controller
     {
         $bans = Ban::orderBy('created_at', 'desc')->paginate(20);
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Admin Dashboard', 'url' => route('admin.index')],
+            ['name' => 'IP Bans', 'url' => null]
+        ];
 
         return view('admin.bans', [
             'bans' => $bans,
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

@@ -20,10 +20,16 @@ class AdminUserController extends Controller
         $this->authorize('manageAdmins', Auth::guard('admin')->user());
         $adminUsers = AdminUser::orderBy('created_at', 'desc')->get();
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Admin Dashboard', 'url' => route('admin.index')],
+            ['name' => 'User Management', 'url' => null]
+        ];
 
         return view('admin.users.index', [
             'adminUsers' => $adminUsers,
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -32,9 +38,16 @@ class AdminUserController extends Controller
         $this->authorize('manageAdmins', Auth::guard('admin')->user());
 
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Admin Dashboard', 'url' => route('admin.index')],
+            ['name' => 'User Management', 'url' => route('admin.users.index')],
+            ['name' => 'Create User', 'url' => null]
+        ];
 
         return view('admin.users.create', [
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -65,10 +78,17 @@ class AdminUserController extends Controller
         $this->authorize('manageAdmins', Auth::guard('admin')->user());
 
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Admin Dashboard', 'url' => route('admin.index')],
+            ['name' => 'User Management', 'url' => route('admin.users.index')],
+            ['name' => 'Edit Password', 'url' => null]
+        ];
 
         return view('admin.users.edit', [
             'adminUser' => $adminUser,
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

@@ -33,11 +33,16 @@ class BlogController extends Controller
 
         $blogs = $this->blogService->getBlogs($sort, 25);
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Blog Posts', 'url' => null]
+        ];
 
         return view('blogs.index', [
             'blogs' => $blogs,
             'siteConfig' => $siteConfig,
             'currentSort' => $sortBy,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -54,10 +59,16 @@ class BlogController extends Controller
         }
 
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Blog Posts', 'url' => route('blogs.index')],
+            ['name' => substr($blog->title, 0, 50) . (strlen($blog->title) > 50 ? '...' : ''), 'url' => null]
+        ];
 
         return view('blogs.show', [
             'blog' => $blog,
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -72,9 +83,15 @@ class BlogController extends Controller
         }
 
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Blog Posts', 'url' => route('blogs.index')],
+            ['name' => 'New Post', 'url' => null]
+        ];
 
         return view('blogs.create', [
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -127,10 +144,17 @@ class BlogController extends Controller
         }
 
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Blog Posts', 'url' => route('blogs.index')],
+            ['name' => substr($blog->title, 0, 50) . (strlen($blog->title) > 50 ? '...' : ''), 'url' => route('blogs.show', $blog->id)],
+            ['name' => 'Edit', 'url' => null]
+        ];
 
         return view('blogs.edit', [
             'blog' => $blog,
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -192,12 +216,18 @@ class BlogController extends Controller
 
         $blogs = $this->blogService->searchBlogs($searchTerm, $sort, 25);
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Blog Posts', 'url' => route('blogs.index')],
+            ['name' => 'Search Results', 'url' => null]
+        ];
 
         return view('blogs.search', [
             'blogs' => $blogs,
             'siteConfig' => $siteConfig,
             'searchTerm' => $searchTerm,
             'currentSort' => $sortBy,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -208,10 +238,13 @@ class BlogController extends Controller
     {
         $siteConfig = $this->settingService->getSiteConfig();
         $recentBlogs = $this->blogService->getRecentBlogs(5);
+        
+        $breadcrumbs = [];
 
         return view('home', [
             'siteConfig' => $siteConfig,
             'recentBlogs' => $recentBlogs,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -221,9 +254,14 @@ class BlogController extends Controller
     public function credits(): View
     {
         $siteConfig = $this->settingService->getSiteConfig();
+        
+        $breadcrumbs = [
+            ['name' => 'Credits', 'url' => null]
+        ];
 
         return view('credits', [
             'siteConfig' => $siteConfig,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 }
