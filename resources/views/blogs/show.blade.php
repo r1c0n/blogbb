@@ -7,9 +7,16 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <!-- Back Button -->
-            <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary mb-3">
-                <i class="fas fa-arrow-left"></i> Back to Blogs
-            </a>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="{{ route('blogs.index') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Blogs
+                </a>
+                @auth('admin')
+                <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Edit Post
+                </a>
+                @endauth
+            </div>
 
             <!-- Blog Post -->
             <div class="card">

@@ -110,6 +110,66 @@ class BlogController extends Controller
     }
 
     /**
+     * Show the form for editing a blog post
+     */
+    public function edit(int $id): View|RedirectResponse
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login')
+                ->with('error', 'You must be logged in as an admin to edit posts.');
+        }
+
+        $blog = $this->blogService->getBlog($id);
+
+        if (!$blog) {
+            return redirect()->route('blogs.index')
+                ->with('error', 'Blog post not found');
+        }
+
+        $siteConfig = $this->settingService->getSiteConfig();
+
+        return view('blogs.edit', [
+            'blog' => $blog,
+            'siteConfig' => $siteConfig,
+        ]);
+    }
+
+    /**
+     * Update an existing blog post
+     */
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login')
+                ->with('error', 'You must be logged in as an admin to edit posts.');
+        }
+
+        $blog = $this->blogService->getBlog($id);
+
+        if (!$blog) {
+            return redirect()->route('blogs.index')
+                ->with('error', 'Blog post not found');
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|string|min:3|max:100',
+            'body' => 'required|string|min:10|max:60000',
+            'show_email' => 'required|boolean',
+        ]);
+
+        try {
+            $this->blogService->updateBlog($blog, $validated);
+
+            return redirect()->route('blogs.show', $blog->id)
+                ->with('success', 'Blog post updated successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('blogs.edit', $id)
+                ->with('error', 'Failed to update blog post. Please try again.')
+                ->withInput();
+        }
+    }
+
+    /**
      * Search for blog posts
      */
     public function search(Request $request): View|RedirectResponse

@@ -89,14 +89,19 @@
                         {{ $blog->created_at->diffForHumans() }}
                     </small>
                 </div>
-                <form action="{{ route('admin.blogs.destroy', $blog->id) }}" method="POST"
-                      onsubmit="return confirm('Are you sure you want to delete this blog post?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
-                </form>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('blogs.edit', $blog->id) }}" class="btn btn-sm btn-warning">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form action="{{ route('admin.blogs.destroy', $blog->id) }}" method="POST"
+                          onsubmit="return confirm('Are you sure you want to delete this blog post?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </div>
             </div>
             @empty
             <p class="text-muted mb-0">No blog posts yet.</p>

@@ -56,6 +56,14 @@ class BlogService
     }
 
     /**
+     * Get a single blog without incrementing views
+     */
+    public function getBlog(int $id): ?Blog
+    {
+        return Blog::find($id);
+    }
+
+    /**
      * Create a new blog post
      */
     public function createBlog(array $data): Blog
@@ -64,6 +72,7 @@ class BlogService
             'email' => $data['email'],
             'title' => $data['title'],
             'body' => $data['body'],
+            'show_email' => $data['show_email'] ?? true,
             'ip' => $this->getClientIp(),
             'views' => 0,
         ]);
@@ -74,7 +83,11 @@ class BlogService
      */
     public function updateBlog(Blog $blog, array $data): bool
     {
-        return $blog->update($data);
+        return $blog->update([
+            'title' => $data['title'],
+            'body' => $data['body'],
+            'show_email' => $data['show_email'] ?? $blog->show_email,
+        ]);
     }
 
     /**

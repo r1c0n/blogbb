@@ -24,9 +24,11 @@ Route::middleware([CheckMaintenance::class])->group(function () {
     Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blogs.show');
     Route::get('/search', [BlogController::class, 'search'])->name('blogs.search');
 
-    // Blog creation routes (admin only)
+    // Blog creation and editing routes (admin only)
     Route::get('/post', [BlogController::class, 'create'])->name('blogs.create');
     Route::post('/post', [BlogController::class, 'store'])->name('blogs.store');
+    Route::get('/blog/{id}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+    Route::patch('/blog/{id}', [BlogController::class, 'update'])->name('blogs.update');
 });
 
 // Admin authentication routes
